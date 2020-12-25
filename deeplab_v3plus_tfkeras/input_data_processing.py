@@ -47,7 +47,7 @@ def make_dataset(x_dirs,
             preprocess=preprocess,
             augmentation=data_augment)
     if shuffle:
-        dataset = dataset.shuffle(n_data, buffer_size=20)
+        dataset = dataset.shuffle(n_data)
     dataset = dataset.map(map_f, num_parallel_calls=tf.data.experimental.AUTOTUNE)
     dataset = dataset.batch(batch_size)
     dataset = dataset.prefetch(buffer_size=tf.data.experimental.AUTOTUNE)
