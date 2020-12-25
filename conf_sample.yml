@@ -1,27 +1,34 @@
 # trained model, inference results, visualised images will be saved in model_dir
 model_dir: /content/logs
 
-label_file_path: pascal_voc_label.csv
+label_file_path: labels.csv
 n_extra_channels: 0
+
+causa: True
+cor: True
+transf_morf: True
+equal_hist: False
+size: 576
+partic: 70_20_10
+
 train_x_dirs:
-    - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/train
+    - /content/drive/MyDrive/dataset
 train_extra_x_dirs:
 
 train_y_dirs:
-    - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/train_gt
+    - /content/drive/MyDrive/dataset
 
 valid_x_dirs:
-    - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/val
+    - /content/drive/MyDrive/dataset
 
 valid_extra_x_dirs:
 
-
 valid_y_dirs:
-    - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/val_gt
+    - /content/drive/MyDrive/dataset
 
 # below is to inference and visualise.
 test_x_dirs:
-    - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/test
+    - /content/drive/MyDrive/dataset
 #if you don't use the value, write "~" like below, or don't define it.
 #test_x_dirs: ~
 

@@ -9,10 +9,12 @@ from deeplab_v3plus_tfkeras.data_utils import load_inference_results
 from deeplab_v3plus_tfkeras.input_data_processing import make_data_path_list
 from deeplab_v3plus_tfkeras.vis_utils import convert_y_to_image_array
 from deeplab_v3plus_tfkeras.vis_utils import visualise_inference_result
+from utils import build_config_with_paths
 
 conf_file = sys.argv[1]
 with open(conf_file, "r") as f:
     conf = yaml.safe_load(f)
+    conf = build_config_with_paths(conf)
 
 threshold = 0.0
 

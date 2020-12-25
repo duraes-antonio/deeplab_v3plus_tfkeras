@@ -3,9 +3,12 @@ import sys
 import yaml
 import random
 
+from utils import build_config_with_paths
+
 conf_file = sys.argv[1]
 with open(conf_file, "r") as f:
     conf = yaml.safe_load(f)
+    conf = build_config_with_paths(conf)
 use_devices = str(conf["use_devices"])
 os.environ["CUDA_VISIBLE_DEVICES"] ="" # use_devices
 os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
