@@ -47,7 +47,7 @@ def make_dataset(x_dirs,
             preprocess=preprocess,
             augmentation=data_augment)
     if shuffle:
-        dataset = dataset.shuffle(n_data)
+        dataset = dataset.shuffle(n_data, buffer_size=20)
     dataset = dataset.map(map_f, num_parallel_calls=tf.data.experimental.AUTOTUNE)
     dataset = dataset.batch(batch_size)
     dataset = dataset.prefetch(buffer_size=tf.data.experimental.AUTOTUNE)
@@ -77,7 +77,7 @@ def check_data_paths(data_paths, mixed_type_is_error=False):
 def make_data_path_list(x_dirs,
                         y_dirs=None,
                         extra_x_dirs=None,
-                        img_exts=["png", "jpg"]):
+                        img_exts=["png", "jpeg"]):
     x = []
     y = []
     basenames = []

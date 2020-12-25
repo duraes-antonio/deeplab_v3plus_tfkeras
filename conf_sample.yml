@@ -2,26 +2,26 @@
 model_dir: /content/logs
 
 label_file_path: pascal_voc_label.csv
-n_extra_channels:0
+n_extra_channels: 0
 train_x_dirs:
     - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/train
 train_extra_x_dirs:
 
 train_y_dirs:
-    - - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/train_gt
+    - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/train_gt
 
 valid_x_dirs:
-    - - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/val
+    - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/val
 
 valid_extra_x_dirs:
 
 
 valid_y_dirs:
-    - - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/val_gt
+    - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/val_gt
 
 # below is to inference and visualise.
 test_x_dirs:
-    - - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/test
+    - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/test
 #if you don't use the value, write "~" like below, or don't define it.
 #test_x_dirs: ~
 
