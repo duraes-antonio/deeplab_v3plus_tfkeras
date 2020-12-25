@@ -1,32 +1,27 @@
 # trained model, inference results, visualised images will be saved in model_dir
-model_dir: path/to/model_dir
+model_dir: /content/logs
 
-label_file_path: path/to/label.csv
+label_file_path: pascal_voc_label.csv
 n_extra_channels:0
 train_x_dirs:
-    - path/to/train_x_dir1
-    - path/to/train_x_dir2
+    - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/train
 train_extra_x_dirs:
 
 train_y_dirs:
-    - path/to/train_y_dir1
-    - path/to/train_y_dir2
+    - - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/train_gt
 
 valid_x_dirs:
-    - path/to/valid_x_dir1
-    - path/to/valid_x_dir2
+    - - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/val
 
 valid_extra_x_dirs:
 
 
 valid_y_dirs:
-    - path/to/valid_y_dir1
-    - path/to/valid_y_dir2
+    - - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/val_gt
 
 # below is to inference and visualise.
 test_x_dirs:
-    - path/to/test_x_dir1
-    - path/to/test_x_dir2
+    - - /content/drive/MyDrive/dataset/576x576/custom_576x576_75_15_10_transf-morf_sem-causa/test
 #if you don't use the value, write "~" like below, or don't define it.
 #test_x_dirs: ~
 
@@ -49,10 +44,10 @@ which_to_visualise:
 # softmax: one pixel belong to one category.
 # sigmoid: one pixel can belong to two or more categories.
 output_activation: softmax
-batch_size: 16
-n_epochs: 350
+batch_size: 4
+n_epochs: 10
 use_devices: "0" # if you want to do distributed learning, write like "0,1,2".
-image_size: [256,256]
+image_size: [576,576]
 optimizer: Adam #Adam or Nadam or SGD
 
 # if batch_size is very small, consider to use batch renorm.
@@ -62,12 +57,12 @@ optimizer: Adam #Adam or Nadam or SGD
 # CE: cross entropy
 # FL: focal loss
 # GDL: generalized dice loss
-loss: FL
+loss: CE
 
 # Choose one fore metrics
 # IoU: Intersection over Union. Jaccard index.
 # F1score  : F1score. F measure. Dice coefficient.
-metrics: IoU
+metrics: F1score
 
 # True, if you want to check metrics for each label.
 check_categorical_metrics: True
@@ -77,15 +72,3 @@ use_tensorboard: True
 # default is model_dir
 tensorboard_dir: /home/taniguchi-j/tensorboard
 
-# below is not supported now.
-# The length of class_weight must be same as the number of labels.
-# If you write class_weight to "~", treated all classes as having same weight.
-# If sum of class_weigths is not 1, automaticaly set as such.
-# class_weight: ~
-#class_weight:
-#    - 0.1
-#    - 0.8
-#    - 0.1
-#class_weight:
-#    - 100
-#    - 200
