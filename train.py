@@ -73,7 +73,7 @@ os.makedirs(out_dir, exist_ok=True)
 preprocess = keras.applications.xception.preprocess_input
 
 config_list = [[k, conf[k]] for k in conf]
-print(tabulate(l, headers=['Chave', 'Valor']))
+print(tabulate(config_list, headers=['Chave', 'Valor']))
 
 # make train dataset
 train_dataset, train_path_list = make_dataset(
