@@ -17,7 +17,7 @@ def extract_path_from_config(conf, inic_path: str) -> str:
 		if opcao
 	])
 
-	return path.join(inic_path, RESOLUCAO, f'custom_{DATASET_CONFIG}')
+	return path.join(inic_path[0], RESOLUCAO, f'custom_{DATASET_CONFIG}')
 
 
 def build_config_with_paths(conf) -> Dict:
