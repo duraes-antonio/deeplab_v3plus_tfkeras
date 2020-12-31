@@ -53,11 +53,11 @@ which_to_visualise:
 # softmax: one pixel belong to one category.
 # sigmoid: one pixel can belong to two or more categories.
 output_activation: softmax
-batch_size: 8
-n_epochs: 10
+batch_size: 4
+n_epochs: 5
 use_devices: "0" # if you want to do distributed learning, write like "0,1,2".
 image_size: [512,512]
-optimizer: Adam #Adam or Nadam or SGD or RMSProp
+optimizer: Adam #Adam or RMSProp
 
 # if batch_size is very small, consider to use batch renorm.
 # use_batch_renorm: True

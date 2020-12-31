@@ -1,7 +1,6 @@
 import os
 import shutil
 import sys
-from typing import List
 from tabulate import tabulate
 
 import yaml
