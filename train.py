@@ -165,7 +165,7 @@ else:
 layer_name_to_decoder = "block3_sepconv2_bn"
 encoder_end_layer_name = "block13_sepconv2_bn"
 
-metrics_list: List[tf.keras.metrics] = [
+metrics_list = [
 	'accuracy',
 	tf.keras.metrics.Recall(name='recall'),
 	tf.keras.metrics.Precision(name='precision'),

@@ -1,8 +1,8 @@
 from os import path
-from typing import Dict
+from typing import Dict, List
 
 
-def extract_path_from_config(conf, inic_path: str) -> str:
+def extract_path_from_config(conf, inic_path: str) -> List[str]:
 	RESOLUCAO = f"{conf['size']}x{conf['size']}"
 	PARTICIONAMENTO = conf['partic']
 
@@ -17,7 +17,10 @@ def extract_path_from_config(conf, inic_path: str) -> str:
 		if opcao
 	])
 
-	return path.join(inic_path[0], RESOLUCAO, f'custom_{DATASET_CONFIG}')
+	return [
+		path.join(p, RESOLUCAO, f'custom_{DATASET_CONFIG}')
+		for p in inic_path
+	]
 
 
 def build_config_with_paths(conf) -> Dict:
@@ -30,6 +33,9 @@ def build_config_with_paths(conf) -> Dict:
 		'test_x_dirs': 'test',
 	}
 	for nome_var in path_nome_final:
-		conf[nome_var] = path.join(extract_path_from_config(conf, conf[nome_var]), path_nome_final[nome_var])
+		conf[nome_var] = [
+			path.join(p, path_nome_final[nome_var]) for p in
+			extract_path_from_config(conf, conf[nome_var])
+		]
 
 	return conf
