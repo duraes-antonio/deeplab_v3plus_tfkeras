@@ -4,7 +4,7 @@ import tensorflow.keras.layers as layers
 import numpy as np
 
 
-def deeplab_v3plus(image_size, n_categories):
+def deeplab_v3plus(image_size, n_categories, dropout: float = 0):
     if np.mod(image_size[0], 32) != 0 or np.mod(image_size[1], 32) != 0:
         raise Exception("image_size must be multiples of 32")
 
@@ -85,6 +85,7 @@ def deeplab_v3plus(image_size, n_categories):
     # decoder
     x_dec = Conv_BN(x_dec, 48, filter=1, prefix="dec1", suffix="1", strides=1, dilation_rate=1)
     x_dec = layers.concatenate([x_dec, ASPP], name="dec_concat")
+    x_dec = layers.Dropout(dropout)(x_dec) if dropout > 0 else x_dec
     x_dec = SepConv_BN(x_dec, 256, prefix="dec1", suffix="2", strides=1, dilation_rate=1)
     x_dec = SepConv_BN(x_dec, 256, prefix="dec1", suffix="3", strides=1, dilation_rate=1)
     x_dec = layers.UpSampling2D(4, name="dec_upsample_1")(x_dec)
@@ -97,13 +98,11 @@ def deeplab_v3plus(image_size, n_categories):
     return model
 
 
-def deeplab_v3plus_transfer_os16(n_categories,
-                                 encoder,
-                                 layer_name_to_decoder,
-                                 encoder_end_layer_name,
-                                 freeze_encoder=True,
-                                 output_activation='softmax',
-                                 batch_renorm=False):
+def deeplab_v3plus_transfer_os16(
+        n_categories, encoder, layer_name_to_decoder,
+        encoder_end_layer_name, freeze_encoder=True,
+        output_activation='softmax', batch_renorm=False, dropout: float = 0
+):
 
     layer_dict = dict([(layer.name, layer) for layer in encoder.layers])
     inputs = encoder.input
@@ -136,6 +135,7 @@ def deeplab_v3plus_transfer_os16(n_categories,
     # print("in decoder, layer from encoder is resized from " + str(x_dec.shape[1:3]) + " to " + str(ASPP.shape[1:3]))
     # x_dec = Resize_Layer(x_dec, ASPP.shape[1:3], name="dec1_resize")
     x_dec = layers.concatenate([x_dec, ASPP], name="dec_concat")
+    x_dec = layers.Dropout(dropout)(x_dec) if dropout > 0 else x_dec
     x_dec = SepConv_BN(x_dec, 256, prefix="dec1", suffix="2", strides=1, dilation_rate=1, batch_renorm=batch_renorm)
     x_dec = SepConv_BN(x_dec, 256, prefix="dec1", suffix="3", strides=1, dilation_rate=1, batch_renorm=batch_renorm)
     x_dec = layers.UpSampling2D(4, name="dec_upsample_2")(x_dec)
@@ -154,14 +154,11 @@ def deeplab_v3plus_transfer_os16(n_categories,
     return model
 
 
-def deeplab_v3plus_transfer_extra_channels(n_categories,
-                                           encoder,
-                                           layer_name_to_decoder,
-                                           encoder_end_layer_name,
-                                           n_extra_channels=1,
-                                           freeze_encoder=True,
-                                           output_activation='softmax',
-                                           batch_renorm=False,):
+def deeplab_v3plus_transfer_extra_channels(
+        n_categories, encoder, layer_name_to_decoder,
+        encoder_end_layer_name, n_extra_channels=1, freeze_encoder=True,
+        output_activation='softmax', batch_renorm=False, dropout: float = 0
+):
     # ratio of input image size and extra_x size must be 10:1
     # you can adjast this ratio by modifing extra_x_upsample and shape of input_extra.
 
@@ -204,6 +201,8 @@ def deeplab_v3plus_transfer_extra_channels(n_categories,
     # print("in decoder, layer from encoder is resized from " + str(x_dec.shape[1:3]) + " to " + str(ASPP.shape[1:3]))
     # x_dec = Resize_Layer(x_dec, ASPP.shape[1:3], name="dec1_resize")
     x_dec = layers.concatenate([x_dec, ASPP], name="dec_concat")
+    x_dec = layers.Dropout(dropout)(x_dec) if dropout > 0 else x_dec
+
     x_dec = SepConv_BN(x_dec, 256, prefix="dec1", suffix="2", strides=1, dilation_rate=1, batch_renorm=batch_renorm)
     x_dec = SepConv_BN(x_dec, 256, prefix="dec1", suffix="3", strides=1, dilation_rate=1, batch_renorm=batch_renorm)
     x_dec = layers.UpSampling2D(4, name="dec_upsample_2")(x_dec)
@@ -220,6 +219,7 @@ def deeplab_v3plus_transfer_extra_channels(n_categories,
     x_extra = layers.UpSampling2D(2, name="extra_x_upsample_2")(x_extra)
 
     x_dec = layers.concatenate([x_dec, x_extra], name="concat_extra")
+    x_dec = layers.Dropout(dropout)(x_dec) if dropout > 0 else x_dec
 
     x_dec = SepConv_BN(x_dec, 128, prefix="dec2", suffix="1", strides=1, dilation_rate=1, batch_renorm=batch_renorm)
     x_dec = SepConv_BN(x_dec, 64, prefix="dec2", suffix="2", strides=1, dilation_rate=1, batch_renorm=batch_renorm)

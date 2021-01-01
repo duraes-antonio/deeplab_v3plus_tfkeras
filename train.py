@@ -32,6 +32,7 @@ import deeplab_v3plus_tfkeras.mod_xception as xception
 tf.compat.v1.enable_eager_execution()
 matplotlib.use('Agg')
 
+dropout = conf["dropout"]
 out_dir = conf["model_dir"]
 n_classes = conf["n_classes"]
 lr = conf["lr"]
@@ -176,28 +177,23 @@ if n_gpus >= 2:
 	strategy = tf.distribute.MirroredStrategy()
 	with strategy.scope():
 		encoder = xception.Xception(
-			input_shape=(*image_size, 3),
-			weights="imagenet",
-			include_top=False)
+			input_shape=(*image_size, 3), weights="imagenet",
+			include_top=False, dropout=dropout
+		)
 		if n_extra_channels == 0:
 			model = deeplab_v3plus_transfer_os16(
-				label.n_labels,
-				encoder,
-				layer_name_to_decoder,
-				encoder_end_layer_name,
-				freeze_encoder=False,
+				label.n_labels, encoder, layer_name_to_decoder,
+				encoder_end_layer_name, freeze_encoder=False,
 				output_activation=output_activation,
-				batch_renorm=use_batch_renorm)
+				batch_renorm=use_batch_renorm, dropout=dropout
+			)
 		else:
 			model = deeplab_v3plus_transfer_extra_channels(
-				label.n_labels,
-				encoder,
-				layer_name_to_decoder,
-				encoder_end_layer_name,
-				n_extra_channels=n_extra_channels,
-				freeze_encoder=False,
-				output_activation=output_activation,
-				batch_renorm=use_batch_renorm)
+				label.n_labels, encoder, layer_name_to_decoder,
+				encoder_end_layer_name, n_extra_channels=n_extra_channels,
+				freeze_encoder=False, output_activation=output_activation,
+				batch_renorm=use_batch_renorm, dropout=dropout
+			)
 
 		model.compile(
 			optimizer=opt, loss=loss_function, metrics=metrics_list,
@@ -205,29 +201,22 @@ if n_gpus >= 2:
 		)
 else:
 	encoder = xception.Xception(
-		input_shape=(*image_size, 3),
-		weights="imagenet",
-		include_top=False)
+		input_shape=(*image_size, 3), weights="imagenet",
+		include_top=False, dropout=dropout
+	)
 	if n_extra_channels == 0:
 		model = deeplab_v3plus_transfer_os16(
-			label.n_labels,
-			encoder,
-			layer_name_to_decoder,
-			encoder_end_layer_name,
-			freeze_encoder=False,
+			label.n_labels, encoder, layer_name_to_decoder,
+			encoder_end_layer_name, freeze_encoder=False,
 			output_activation=output_activation,
-			batch_renorm=use_batch_renorm,
+			batch_renorm=use_batch_renorm, dropout=dropout
 		)
 	else:
 		model = deeplab_v3plus_transfer_extra_channels(
-			label.n_labels,
-			encoder,
-			layer_name_to_decoder,
-			encoder_end_layer_name,
-			n_extra_channels=n_extra_channels,
-			freeze_encoder=False,
-			output_activation=output_activation,
-			batch_renorm=use_batch_renorm
+			label.n_labels, encoder, layer_name_to_decoder,
+			encoder_end_layer_name, n_extra_channels=n_extra_channels,
+			freeze_encoder=False, output_activation=output_activation,
+			batch_renorm=use_batch_renorm, dropout=dropout
 		)
 
 	model.compile(
