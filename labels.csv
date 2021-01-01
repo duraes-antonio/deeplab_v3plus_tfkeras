@@ -1,4 +1,4 @@
-bacteria,128,192,128
-covid,128,192,0
-virus,128,64,128
-background,1,1,1
+bacteria,2,2,2
+covid,1,1,1
+virus,3,3,3
+background,0,0,1
