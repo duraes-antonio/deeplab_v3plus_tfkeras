@@ -39,3 +39,25 @@ def build_config_with_paths(conf) -> Dict:
 		]
 
 	return conf
+
+def get_model_file_name(conf) -> str:
+	lr = conf["lr"]
+	batch_size = conf["batch_size"]
+	n_epochs = conf["n_epochs"]
+	loss = 'categorical_crossentropy' if conf["loss"] == 'CE' else 'focal_loss'
+	optimizer = conf["optimizer"]
+	shuffle_train = False
+	dropout = conf["dropout"]
+
+	resolucao = f"{conf['size']}x{conf['size']}"
+	particionamento = conf['partic']
+	eq_hist = 'hist-equal' if conf.get('equal_hist', False) else ''
+	transf_morf = 'transf-morf' if conf.get('transf_morf', False) else ''
+
+	dataset_config = '_'.join([
+		opcao for opcao in [resolucao, particionamento, eq_hist, transf_morf]
+		if opcao
+	])
+
+	return f"{dataset_config}_{optimizer.lower()}_{loss}_batch-{batch_size}_epoch-{n_epochs}_LR-{lr}_dropout-{1 if dropout > 0 else 0}_shuffle-{1 if shuffle_train else 0}.h5"
+

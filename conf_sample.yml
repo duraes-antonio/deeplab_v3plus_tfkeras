@@ -1,5 +1,5 @@
 # trained model, inference results, visualised images will be saved in model_dir
-model_dir: /content/logs
+model_dir: /content
 
 label_file_path: labels.csv
 n_extra_channels: 0
