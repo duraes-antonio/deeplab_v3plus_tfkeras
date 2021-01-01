@@ -78,7 +78,7 @@ metrics: F1score
 check_categorical_metrics: True
 
 # True or False
-use_tensorboard: True
+use_tensorboard: False
 # default is model_dir
 tensorboard_dir: /home/taniguchi-j/tensorboard
 
