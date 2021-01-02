@@ -5,7 +5,7 @@ label_file_path: labels.csv
 n_extra_channels: 0
 
 causa: True
-cor: False
+cor: True
 transf_morf: True
 equal_hist: False
 size: 512

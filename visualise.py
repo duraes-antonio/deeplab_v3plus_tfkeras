@@ -55,23 +55,14 @@ for target in which_to_visualise:
     fpath = os.path.join(model_dir, "{}_inference.h5".format(target))
     pred, last_activation = load_inference_results(fpath)
 
-    path_list = make_data_path_list(
-        x_dirs,
-        y_dirs=y_dirs,
-        extra_x_dirs=extra_x_dirs)
+    path_list = make_data_path_list(x_dirs, y_dirs=y_dirs, extra_x_dirs=extra_x_dirs)
 
-    y_pred = convert_y_to_image_array(pred,
-                                      label,
-                                      threshold=threshold,
-                                      activation=last_activation)
-
-    joblib.Parallel(
-        n_jobs=n_jobs,
-        verbose=10,
-        backend="loky")(joblib.delayed(visualise_inference_result)(
-            i,
-            path_list,
-            y_pred,
-            fig_out_dir,
-            last_activation,
-            label=None) for i in range(len(y_pred)))
+    y_pred = convert_y_to_image_array(
+        pred, label, threshold=threshold, activation=last_activation
+    )
+    fn_parallel = joblib.Parallel(n_jobs=n_jobs, verbose=10, backend="loky")
+    fn_delayed = joblib.delayed(visualise_inference_result)
+    fn_parallel(
+        fn_delayed(i, path_list, y_pred, fig_out_dir, last_activation, label=None)
+        for i in range(len(y_pred))
+    )
