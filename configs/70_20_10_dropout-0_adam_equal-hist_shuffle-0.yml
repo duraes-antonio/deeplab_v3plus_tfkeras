@@ -1,0 +1,83 @@
+# trained model, inference results, visualised images will be saved in model_dir
+model_dir: /content
+
+label_file_path: labels.csv
+n_extra_channels: 0
+
+causa: True
+cor: False
+transf_morf: False
+equal_hist: True
+size: 512
+partic: "70_20_10"
+n_classes: 4
+lr: 0.0001
+dropout: 0
+shuffle_train: False
+
+train_x_dirs:
+    - /content/drive/MyDrive/dataset
+train_extra_x_dirs:
+
+train_y_dirs:
+    - /content/drive/MyDrive/dataset
+
+valid_x_dirs:
+    - /content/drive/MyDrive/dataset
+
+valid_extra_x_dirs:
+
+valid_y_dirs:
+    - /content/drive/MyDrive/dataset
+
+# below is to inference and visualise.
+test_x_dirs:
+    - /content/drive/MyDrive/dataset
+#if you don't use the value, write "~" like below, or don't define it.
+#test_x_dirs: ~
+
+# test_extra_x_dirs:
+
+# test_y_dirs:
+#     - path/to/test_y_dir1
+
+which_to_inference:
+    #- train
+    #- valid
+    - test
+which_to_visualise:
+    #- train
+    #- valid
+    - test
+
+# below is training setting
+# choose one for output_activation.
+# softmax: one pixel belong to one category.
+# sigmoid: one pixel can belong to two or more categories.
+output_activation: softmax
+batch_size: 4
+n_epochs: 40
+use_devices: "0" # if you want to do distributed learning, write like "0,1,2".
+image_size: [512,512]
+optimizer: "Adam" #Adam or RMSProp
+
+# if batch_size is very small, consider to use batch renorm.
+# use_batch_renorm: True
+
+# Choose one for loss function.
+# CE: cross entropy
+# FL: focal loss
+# GDL: generalized dice loss
+loss: CE
+
+# Choose one fore metrics
+# IoU: Intersection over Union. Jaccard index.
+# F1score  : F1score. F measure. Dice coefficient.
+metrics: F1score
+
+# True, if you want to check metrics for each label.
+check_categorical_metrics: True
+
+# True or False
+use_tensorboard: False
+
